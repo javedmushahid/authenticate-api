@@ -100,6 +100,16 @@ const resetAllTickets = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+const isAdmin = (req, res, next) => {
+  // Check if the 'admin' query parameter is present and set to 'true'
+  if (req.query.admin && req.query.admin === "true") {
+    next();
+  } else {
+    res
+      .status(403)
+      .json({ error: "Forbidden: Only admin users can perform this action" });
+  }
+};
 module.exports = {
   deleteTicket,
   addTicket,
@@ -107,4 +117,5 @@ module.exports = {
   getTicket,
   resetAllTickets,
   updateTicket,
+  isAdmin
 };
